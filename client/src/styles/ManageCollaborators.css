@@ -1,0 +1,179 @@
+.manage-collaborators {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* tabs */
+.collaborator-tabs {
+    display: flex;
+    border-bottom: 1px solid #e1e4e8;
+    margin-bottom: 16px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #586069;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-button:hover {
+    color: #3498db;
+    background-color: #f6f8fa;
+}
+
+.tab-button.active {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+}
+
+/* search */
+.search-form {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-input-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 36px 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    color: #8195a6;
+}
+
+/* user lists */
+.collaborator-panel {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.panel-header {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.panel-header h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #24292e;
+}
+
+.results-list {
+    padding: 8px 0;
+}
+
+.user-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background-color 0.2s ease;
+}
+
+.user-item:hover {
+    background-color: #f6f8fa;
+}
+
+.user-item .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.username {
+    font-weight: 500;
+    color: #24292e;
+    margin-bottom: 2px;
+}
+
+.email {
+    font-size: 12px;
+    color: #6a737d;
+}
+
+/* buttons for add and remove */
+.action-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-button:hover {
+    background-color: #2980b9;
+}
+
+.action-button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.action-button.remove {
+    background-color: #e74c3c;
+}
+
+.action-button.remove:hover {
+    background-color: #c0392b;
+}
+
+/* status messages */
+.error-message, .success-message {
+    padding: 10px 16px;
+    margin: 8px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.error-message {
+    background-color: #ffeaea;
+    color: #e53e3e;
+    border: 1px solid #f5c6cb;
+}
+
+.success-message {
+    background-color: #e8f5e9;
+    color: #38a169;
+    border: 1px solid #c3e6cb;
+}
+
+.empty-message, .loading-message {
+    padding: 24px 16px;
+    text-align: center;
+    color: #8195a6;
+    font-style: italic;
+}

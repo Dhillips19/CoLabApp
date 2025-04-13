@@ -1,0 +1,68 @@
+/* export button styles */
+.export-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.export-main-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    width: auto;
+}
+
+.export-main-button:hover {
+    background-color: #2980b9;
+}
+
+.export-main-button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+/* dropdown menu */
+.export-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    min-width: 160px;
+    margin-top: 4px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* export options */
+.export-option {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.export-option:hover {
+    background-color: #f5f5f5;
+    color: #3498db;
+}
+
+.export-option + .export-option {
+    border-top: 1px solid #eee;
+}

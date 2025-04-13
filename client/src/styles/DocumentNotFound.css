@@ -1,0 +1,58 @@
+/* styling for when document is not found page*/
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.not-found-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.not-found-content h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+.not-found-content p {
+    margin-bottom: 2rem;
+    color: #7f8c8d;
+    max-width: 600px;
+}
+
+.not-found-content code {
+    background: #f1f5f9;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.not-found-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.return-home, .create-document {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.return-home {
+    background-color: #f1f5f9;
+    color: #2c3e50;
+}
+
+.return-home:hover {
+    background-color: #e2e8f0;
+}

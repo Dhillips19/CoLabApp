@@ -1,0 +1,53 @@
+.document-title-container {
+    width: 15rem;
+}
+
+/* title display before click */
+.title-display {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+    cursor: text;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 20px;
+    position: relative;
+    min-width: 5rem;
+    max-width: 15rem;
+    display: inline-block;
+}
+
+/* on hover */
+.title-display:after {
+    content: "✏️";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+}
+
+.title-display:hover:after {
+    opacity: 1;
+}
+
+/* title input when clicked */
+.title-input {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    color: #333;
+    width: 15rem;
+}
+
+.title-input:focus {
+    border-color: #3498db;
+}
