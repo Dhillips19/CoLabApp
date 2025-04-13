@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 // user model to store the user information
 // each user has a unique username, email, password, colour, 
 // an ownedDocuments array, and a sharedDocuments array
-const userModel = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -35,6 +35,6 @@ const userModel = new mongoose.Schema({
     timestamps: true,
 });
 
-const User = mongoose.model('User', userModel);
+const User = mongoose.model('User', UserSchema);
 
 export default User;
