@@ -1,5 +1,5 @@
 import express from 'express';
-import { searchUser, addCollaborator, getCollaborators, removeCollaborator } from '../controllers/collaboratorSearchController.js';
+import { searchUser, addCollaborator, getCollaborators, removeCollaborator } from '../controllers/collaboratorController.js';
 import authenticateUser from '../middleware/authMiddleware.js';
 
 const editorRouter = express.Router();
