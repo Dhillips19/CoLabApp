@@ -155,13 +155,14 @@ export default function NavBar() {
                                     </div>
                                     
                                     { /* change password button - not set up yet */}
-                                    <div className="change-password">
+                                    {/* <div className="change-password">
                                         <Link to="/change-password" className="change-password-link">
                                             <FontAwesomeIcon icon={faKey} />
                                             <span>Change Password</span>
                                         </Link>
-                                    </div>
+                                    </div> */}
                                     
+                                    {/* colour picker for collaboration colour */}
                                     <div className="colour-picker">
                                         <p>Choose your collaboration colour:</p>
                                         <div className="colour-options">

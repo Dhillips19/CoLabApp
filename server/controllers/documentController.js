@@ -8,6 +8,7 @@ export async function createDocument(req, res) {
     try {
         // let document ID be request body
         let { documentId } = req.body;
+        
         // retrieve and verify user id from authentication middleware
         const owner = req.user?.id;
 

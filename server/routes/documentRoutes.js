@@ -11,7 +11,7 @@ documentRouter.post('/create', authenticateUser, createDocument);
 // list documents
 documentRouter.get('/list', authenticateUser, listDocuments);
 
-// verify document exists middleware
+// verify document exists and is accessible
 documentRouter.get('/verify/:documentId', authenticateUser, verifyDocumentAccessible, (req, res) => {
     return res.status(200).json({ 
         exists: true,
