@@ -11,9 +11,9 @@ userRouter.post('/register', registerUser);
 userRouter.post('/login', loginUser);
 
 // verify user token route
-// verifies the user token on application load
+// verifies the user token on component mount
 userRouter.get('/verify', authenticateUser, (req, res) => {
     res.status(200).json({ valid: true });
-  });
+});
   
 export default userRouter;

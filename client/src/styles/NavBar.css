@@ -36,6 +36,12 @@
     transform: scale(1.05);
 }
 
+.brand-box {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
 .brand-link:active {
     transform: scale(0.98);
 }

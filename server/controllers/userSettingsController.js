@@ -11,7 +11,7 @@ export const updateUserColour = async (req, res) => {
             return res.status(400).json({ message: "Colour is required" });
         }
         
-        // finc user in DB
+        // find user in DB
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -21,7 +21,7 @@ export const updateUserColour = async (req, res) => {
         user.colour = colour;
         await user.save();
 
-        // sign the stored jwt token with the updated colour
+        // create and sign a new token with the updated colour
         const token = jwt.sign(
             {
                 id: user._id,
@@ -29,12 +29,11 @@ export const updateUserColour = async (req, res) => {
                 colour: user.colour
             },
             process.env.JWT_SECRET,
-            { expiresIn: "3h" }
+            { expiresIn: "24h" }
         )
         
         res.status(200).json({ 
             message: "Colour preference updated successfully",
-            colour: user.colour,
             token: token
         });
     } catch (error) {

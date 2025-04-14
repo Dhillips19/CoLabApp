@@ -107,9 +107,15 @@ export default function NavBar() {
             {/* left section for brand navigation and links */}
             <div className="left-section">
                 <div className="nav-brand">
-                    <Link to="/" className="brand-link">
-                        <span className="brand-text">CoLab</span>
-                    </Link>
+                    {isAuthenticated ? (
+                        <Link to="/" className="brand-link">
+                            <span className="brand-text">CoLab</span>
+                        </Link>
+                    ) : (
+                        <div className="brand-box">
+                            <div className="brand-text">CoLab</div>
+                        </div>
+                    )}
                 </div>
                 
                 <nav>
