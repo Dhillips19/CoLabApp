@@ -146,8 +146,7 @@ describe('Login Component', () => {
     // Click the register link
     await user.click(screen.getByText(/create account/i));
     
-    // In a real test, we'd check for navigation, but in this isolated test
-    // we can just verify the link has the correct href
+    // Verify the link has the correct href
     expect(screen.getByText(/create account/i).closest('a')).toHaveAttribute('href', '/register');
   });
 });

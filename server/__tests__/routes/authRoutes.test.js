@@ -66,4 +66,41 @@ describe('Auth Routes', () => {
       expect(loginUser).toHaveBeenCalled();
     });
   });
+  
+  describe('GET /api/auth/verify', () => {
+    test('should verify token and return valid status', async () => {
+      // Mock the middleware to call next()
+      authenticateUser.mockImplementation((req, res, next) => {
+        req.user = { id: 'user123', username: 'testuser' };
+        next();
+      });
+      
+      // Make the API request
+      const response = await request(app)
+        .get('/api/auth/verify')
+        .set('Authorization', 'Bearer test-token');
+      
+      // Verify response
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual({ valid: true });
+      expect(authenticateUser).toHaveBeenCalled();
+    });
+    
+    test('should handle authentication failure', async () => {
+      // Mock the middleware to respond with error
+      authenticateUser.mockImplementation((req, res, next) => {
+        return res.status(401).json({ error: 'Invalid token' });
+      });
+      
+      // Make the API request
+      const response = await request(app)
+        .get('/api/auth/verify')
+        .set('Authorization', 'Bearer invalid-token');
+      
+      // Verify response
+      expect(response.statusCode).toBe(401);
+      expect(response.body).toEqual({ error: 'Invalid token' });
+      expect(authenticateUser).toHaveBeenCalled();
+    });
+  });
 });

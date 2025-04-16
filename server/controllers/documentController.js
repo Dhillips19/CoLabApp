@@ -106,14 +106,14 @@ export async function loadDocument(documentId) {
         Y.applyUpdate(ydoc, new Uint8Array(docData.state));
         console.log(`Document ${documentId} loaded from database.`);
 
-        //create doc name varaiable
+        //create doc name variable
         const documentTitle = docData.documentTitle || "Untitled Document";
         
         return { ydoc, documentTitle }; //return ydoc to server
 
     } catch (error) {
         console.error(`Error handling document ${documentId}:`, error.message);
-        //return ydoc to prevent crashing and title to prevent crashing
+        //return ydoc and title to prevent crashing
         return { ydoc: new Y.Doc(), documentTitle: "Untitled Document"} 
     }
 }

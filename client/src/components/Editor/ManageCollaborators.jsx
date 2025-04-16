@@ -180,22 +180,27 @@ const ManageCollaborators = ({ documentId }) => {
         }
     };
 
+    // function to handle tab changes between add and remove collaborators
+    const handleTabChange = (tab) => {
+        setActiveTab(tab); 
+        if (tab === 'remove') {
+            fetchCollaborators(); // fetch collaborators when remove tab is selected
+        }
+    }
+
     return (
         <div className="manage-collaborators">
             <div className="collaborator-tabs">
                 { /* add and remove collaborators tabs */}
                 <button 
                     className={`tab-button ${activeTab === 'add' ? 'active' : ''}`} 
-                    onClick={() => setActiveTab('add')} // set active tab to add
+                    onClick={() => handleTabChange('add')} // set active tab to add
                 >
                     <FontAwesomeIcon icon={faUserPlus} /> Add Users
                 </button>
                 <button 
                     className={`tab-button ${activeTab === 'remove' ? 'active' : ''}`} 
-                    onClick={() => {
-                        setActiveTab('remove'); // set active tab to remove
-                        fetchCollaborators(); // fetch collaborators when tab is clicked
-                    }}
+                    onClick={() => {handleTabChange('remove')}} // set active tab to remove
                 >
                     <FontAwesomeIcon icon={faUserMinus} /> Remove Users
                 </button>

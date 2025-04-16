@@ -9,6 +9,7 @@ const DocumentNotFound = () => {
     // useLocation hook to get the current location
     const location = useLocation();
     // get the document ID from the location state
+    // if no document ID is found, set it to 'unknown'
     const documentId = location.state?.documentId || 'unknown';
 
     // render not found mesage and buttons to create a new document or return home

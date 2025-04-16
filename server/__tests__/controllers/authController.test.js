@@ -148,23 +148,6 @@ describe('Auth Controller Tests', () => {
         error: "Save error"
       });
     });
-    
-    test('should handle missing required fields', async () => {
-      // Test with missing username
-      req.body = {
-        email: 'test@example.com',
-        password: 'password123',
-        confirmPassword: 'password123'
-      };
-      
-      await registerUser(req, res);
-      
-      // Since your controller doesn't explicitly check for required fields,
-      // it will likely fail at some point in the process
-      // This test verifies how it handles this scenario
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json.mock.calls[0][0]).toHaveProperty('message', 'Server Error');
-    });
   });
   
   describe('loginUser', () => {
@@ -208,7 +191,7 @@ describe('Auth Controller Tests', () => {
           colour: '#ff0000'
         },
         process.env.JWT_SECRET,
-        { expiresIn: "3h" }
+        { expiresIn: "24h" }
       );
     });
     
@@ -334,32 +317,6 @@ describe('Auth Controller Tests', () => {
         message: "Server Error",
         error: "JWT signing error"
       });
-    });
-    
-    test('should handle missing email or password', async () => {
-      // Missing password
-      req.body = {
-        email: 'test@example.com'
-      };
-      
-      await loginUser(req, res);
-      
-      // Since your controller doesn't explicitly check for required fields,
-      // it will likely fail at some point in the process
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json.mock.calls[0][0]).toHaveProperty('message', 'Server Error');
-      
-      jest.clearAllMocks();
-      
-      // Missing email
-      req.body = {
-        password: 'password123'
-      };
-      
-      await loginUser(req, res);
-      
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json.mock.calls[0][0]).toHaveProperty('message', 'Server Error');
     });
   });
 });

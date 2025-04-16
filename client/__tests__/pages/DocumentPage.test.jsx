@@ -289,8 +289,6 @@ describe('DocumentPage Component', () => {
     // Clear previous calls
     socket.emit.mockClear();
     
-    // Instead of expecting leaveDocumentRoom on unmount, we'll trigger the beforeUnload handler
-    // that we've captured
     if (beforeUnloadHandler) {
       beforeUnloadHandler();
       

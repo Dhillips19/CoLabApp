@@ -5,7 +5,7 @@ import { loadChatMessages, saveChatMessage } from "./controllers/chatController.
 
 // store room specific document data and users
 const roomData = {};
-const roomUsers = {}
+const roomUsers = {};
 
 export default function initialiseSocket(server) {
     // create a new socket.io server
@@ -22,7 +22,6 @@ export default function initialiseSocket(server) {
         // handle joining a document room
         // the documentId, username, and colour are passed from the client
         socket.on('joinDocumentRoom', async ({ documentId, username, colour }) => {
-            
             try {
                 console.log(`User ${username}, ${colour}, attempting to join document: ${documentId}`);
                 
@@ -32,7 +31,7 @@ export default function initialiseSocket(server) {
                     return;
                 }
 
-                // add the user to the joinedRooms set
+                // add the documentId to the joined rooms set
                 socket.joinedRooms = socket.joinedRooms || new Set();
                 socket.joinedRooms.add(documentId);
                 
@@ -111,11 +110,6 @@ export default function initialiseSocket(server) {
                         socket.hasUpdateListener = true; // Prevent duplicate listeners
                     }
 
-                    // disconnedt event for the socket
-                    socket.on("disconnect", () => {
-                        console.log(`User ${socket.id} disconnected from document: ${documentId}`);
-                    });
-
                 // if there is an error loading the document, emit the document error message
                 } catch (error) {
                     console.error(`Error handling document ${documentId}:`, error);
@@ -186,10 +180,6 @@ export default function initialiseSocket(server) {
                 // broadcast the updated user list to all users in the room
                 io.to(documentId).emit("updateUsers", Object.values(roomUsers[documentId]));
                 
-                // logs for debugging
-                console.log(`Users in room ${documentId}:`, roomUsers[documentId]);
-                console.log(`Users remaining in room ${documentId}:`, Object.keys(roomUsers[documentId]).length);
-                
                 // if there are no users left in the room, clean up the room data
                 if (Object.keys(roomUsers[documentId]).length === 0) {
                     console.log(`Last user left room ${documentId}, cleaning up`);
@@ -214,6 +204,7 @@ export default function initialiseSocket(server) {
             }
         });
 
+        // event fires before socket is disconnected
         // handles potential unexpected disconnections from the document page
         socket.on('disconnecting', async () => {
             
@@ -227,6 +218,16 @@ export default function initialiseSocket(server) {
                 // check if the room has any other users besides the disconnection socket
                 const roomClients = await io.in(room).fetchSockets();
                 
+                // check if the roomUsers object exists for the room
+                if (roomUsers[room]) {
+
+                    // remove the user from the roomUsers object
+                    delete roomUsers[room][socket.id];
+
+                    // broadcast the updated user list to all users in the room
+                    io.to(room).emit("updateUsers", Object.values(roomUsers[room]));
+                }
+
                 // if there are no other users in the room, clean up the room data
                 if (roomClients.length <= 1) { 
                     console.log(`Last user leaving room ${room}, saving and cleaning up.`);
@@ -238,7 +239,7 @@ export default function initialiseSocket(server) {
                             console.log(`Clearing auto-save timer for document ${room}`);
                             
                             clearInterval(roomData[room].timer);
-                            roomData[room].timer = null; // prevent double-clears
+                            roomData[room].timer = null;
                         }
                         
                         // save the document to the database
@@ -248,15 +249,6 @@ export default function initialiseSocket(server) {
                         delete roomData[room];
                     }
 
-                    // check if the roomUsers object exists for the room
-                    if (roomUsers[room]) {
-
-                        // remove the user from the roomUsers object
-                        delete roomUsers[room][socket.id];
-
-                        // broadcast the updated user list to all users in the room
-                        io.to(room).emit("updateUsers", Object.values(roomUsers[room]));
-                    }
                 } else {
                     console.log(`Other users in room ${room}, no clean up needed`);
                 }

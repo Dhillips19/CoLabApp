@@ -130,8 +130,8 @@ describe('Editor Component', () => {
   });
   
   test('cleans up socket listeners when unmounted', () => {
-    // We can't actually test this without running the useEffect
-    // Just verify that socket.off is callable
+
+    // Verify that socket.off is callable
     expect(typeof socket.off).toBe('function');
   });
   
@@ -141,8 +141,6 @@ describe('Editor Component', () => {
     };
     Awareness.mockReturnValue(mockAwareness);
     
-    // We don't need to render here since we're just testing
-    // the behavior that would happen in the effect
     const awareness = Awareness();
     awareness.setLocalStateField('user', {
       name: mockUsername,

@@ -22,7 +22,7 @@ describe('CreateDocument Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     
-    // Reset localStorage mock for each test - this approach ensures localStorage.getItem works correctly
+    // Reset localStorage mock for each test
     Object.defineProperty(window, 'localStorage', {
       value: {
         getItem: jest.fn().mockReturnValue('mock-token'),

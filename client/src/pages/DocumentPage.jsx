@@ -184,7 +184,7 @@ export default function DocumentPage() {
     }
 
     // function to toggle the manage collaborators panel
-    const toggleCollaboratorSearch = () => {
+    const toggleManageCollaborators = () => {
         setShowManageCollaborators(prev => !prev);
     }
 
@@ -197,7 +197,6 @@ export default function DocumentPage() {
                 setShowManageCollaborators(false);
             }
         }
-        
         // add event listener for clicks outside the panel
         document.addEventListener("mousedown", handleClickOutside);
 
@@ -246,7 +245,7 @@ export default function DocumentPage() {
                 <div className="header-left">                    
                     <div className="top-row">
                         <div className="document-title-container">
-                            <DocumentTitle documentId={documentId} username={username} titleRef={titleRef}/>
+                            <DocumentTitle documentId={documentId} titleRef={titleRef}/>
                         </div>
                     </div>
                     <div className="bottom-row">
@@ -265,7 +264,7 @@ export default function DocumentPage() {
                     {isDocumentOwner && (
                         <button 
                             className="manage-collaborators-btn"
-                            onClick={toggleCollaboratorSearch}
+                            onClick={toggleManageCollaborators}
                         >
                             Manage Users
                         </button>

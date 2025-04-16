@@ -12,7 +12,6 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate
 }));
 
-// THIS MUST BE BEFORE ANY MOCK IMPLEMENTATION
 const originalFetch = global.fetch;
 global.fetch = jest.fn();
 
@@ -56,7 +55,7 @@ describe('ListUserDocuments Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     
-    // FIXED: This is the correct way to set up the fetch mock
+    // Fetch mock
     global.fetch = jest.fn(() => {
       return Promise.resolve({
         ok: true,
@@ -114,7 +113,7 @@ describe('ListUserDocuments Component', () => {
   });
   
   test('shows empty state message when no documents', async () => {
-    // FIXED: Mock empty document lists
+    // Mock empty document lists
     global.fetch = jest.fn(() => {
       return Promise.resolve({
         ok: true,
