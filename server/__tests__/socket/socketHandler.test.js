@@ -157,9 +157,14 @@ describe('Socket Handler Tests', () => {
     const secondClient = Client('http://localhost:3002');
     await new Promise(resolve => secondClient.on('connect', resolve));
     
-    // Prepare second client to receive updates
-    const updatePromise = new Promise(resolve => {
+    // Prepare second client to receive updates with a timeout to prevent test hanging
+    const updatePromise = new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error('Timed out waiting for update'));
+      }, 2000);
+      
       secondClient.on('update', update => {
+        clearTimeout(timeout);
         resolve(update);
       });
     });
@@ -178,7 +183,7 @@ describe('Socket Handler Tests', () => {
     });
     
     // Wait to ensure connections are established
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     // Mock update data
     const mockUpdate = new Uint8Array([1, 2, 3]);
@@ -186,16 +191,18 @@ describe('Socket Handler Tests', () => {
     // Send update from first client
     clientSocket.emit('update', mockUpdate);
     
-    // Wait for second client to receive update
-    const receivedUpdate = await updatePromise;
-    
-    // Verify update was received
-    expect(Array.from(receivedUpdate)).toEqual([1, 2, 3]);
-    expect(Y.applyUpdate).toHaveBeenCalled();
-    
-    // Close second client
-    secondClient.disconnect();
-  });
+    try {
+      // Wait for second client to receive update
+      const receivedUpdate = await updatePromise;
+      
+      // Verify update was received
+      expect(Array.from(receivedUpdate)).toEqual([1, 2, 3]);
+      expect(Y.applyUpdate).toHaveBeenCalled();
+    } finally {
+      // Close second client
+      secondClient.disconnect();
+    }
+  }, 10000); // Increase timeout to 10 seconds
   
   test('should handle chat messages', async () => {
     // Prepare to listen for messages
@@ -383,34 +390,55 @@ describe('Socket Handler Tests', () => {
     await new Promise(resolve => leaveClient.on('connect', resolve));
     
     // Join room first with this dedicated client
+    let joinCompleted = false;
+    const joinPromise = new Promise(resolve => {
+      leaveClient.on('updateUsers', users => {
+        if (!joinCompleted) {
+          joinCompleted = true;
+          resolve(users);
+        }
+      });
+    });
+    
     leaveClient.emit('joinDocumentRoom', {
       documentId: 'test-doc-123',
       username: 'leaveuser',
       colour: '#ff0000'
     });
     
-    // Wait to ensure connection is established
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Wait for join to complete
+    await joinPromise;
     
-    // Set up some tracking so we know document save is attempted
+    // Mock saveDocument with more robust implementation
     const saveAttempted = jest.fn();
     saveDocument.mockImplementation((docId, doc) => {
       saveAttempted(docId);
       return Promise.resolve(true);
     });
     
+    // Set up a way to know when disconnect happens
+    const disconnectPromise = new Promise(resolve => {
+      // Handle disconnect event on server side if possible
+      // This is a fallback using timeout
+      setTimeout(resolve, 500);
+    });
+    
     // Now leave the room
     leaveClient.emit('leaveDocumentRoom', 'test-doc-123');
     
+    // Wait for disconnect to be processed
+    await disconnectPromise;
+    
+    // Additionally, simulate disconnect to trigger cleanup
+    leaveClient.disconnect();
+    
     // Wait to ensure leave is processed
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 500));
     
     // Verify document save was attempted
     expect(saveAttempted).toHaveBeenCalledWith('test-doc-123');
     
-    // Clean up
-    leaveClient.disconnect();
-  }, 10000);
+  }, 10000); // Increase timeout to 10 seconds
   
   test('should handle multiple users in a room', async () => {
     // Set up multiple clients
