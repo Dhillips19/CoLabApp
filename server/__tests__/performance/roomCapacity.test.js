@@ -1,14 +1,3 @@
-/**
- * DOCUMENT ROOM CAPACITY TEST
- * 
- * This is a performance test to determine how many concurrent users
- * the system can support in a single document room. It is not a
- * unit or integration test and may consume significant resources.
- * 
- * To run only this test:
- * npm test -- --testPathPattern=__tests__/performance
- */
-
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import Client from 'socket.io-client';

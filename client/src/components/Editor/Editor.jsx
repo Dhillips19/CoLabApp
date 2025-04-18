@@ -44,7 +44,6 @@ const Editor = ({ documentId, username, colour, quillRef }) => {
                 cursors: true, // enable cursors module for collaborative editing
                 toolbar: {
                     container: [
-
                         [{ 'font': [] }], // font options
                         [{ 'size': ['small', 'normal', 'large', 'huge'] }], // size options
                         [{ 'header': 1 }, { 'header': 2 }], // header options
@@ -79,6 +78,7 @@ const Editor = ({ documentId, username, colour, quillRef }) => {
         quillRef.current = quill; // store quill instance in ref
 
         const ydoc = new Y.Doc(); // create y.js document 
+
         const awareness = new Awareness(ydoc); // create awareness instance for user presence
         awareness.setLocalStateField('user', {
             name: username,
